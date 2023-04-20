@@ -1,12 +1,17 @@
-import config
+import os
 import tweepy
 import asyncio
 
+API_KEY = os.environ.get('API_KEY')
+API_SECRET = os.environ.get('API_SECRET')
+ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
+
 def main(tweet_text):
-    client = tweepy.Client(consumer_key=config.API_KEY,
-                           consumer_secret=config.API_SECRET,
-                           access_token=config.ACCESS_TOKEN,
-                           access_token_secret=config.ACCESS_SECRET)
+    client = tweepy.Client(consumer_key=API_KEY,
+                           consumer_secret=API_SECRET,
+                           access_token=ACCESS_TOKEN,
+                           access_token_secret=ACCESS_SECRET)
     response = client.create_tweet(text=tweet_text)
 
 async def wait_x_minutes(minutes):

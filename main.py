@@ -11,7 +11,7 @@ if len(sys.argv) > 1:
     tweet_text = text_to_tweet
 else:
     # read the csv data file and assign value to tweet_text
-    csv_data = 'lib/data.csv'
+    csv_data = 'data.csv'
     text_to_tweet = read_csv_file(csv_file_path=csv_data)
     tweet_text = text_to_tweet
 

@@ -6,10 +6,7 @@ import asyncio
 from private import *
 
 from functions.csv_reader import read_csv_file
-from functions.utils import main
-from functions.utils import wait_x_minutes
-from functions.utils import wait_2x_minutes
-
+from functions.utils import *
 
 if len(sys.argv) > 1:
     text_to_tweet = sys.argv[1]  # get the first command-line argument as tweet_text

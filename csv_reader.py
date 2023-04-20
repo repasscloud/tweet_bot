@@ -6,6 +6,7 @@ def read_csv_file(csv_file_path):
         reader = csv.reader(file)
         for row in reader:
             current_date = datetime.datetime.now().strftime('%Y%m%d')
+            print(f"Current gh-actions server date: {current_date}")
             if row[0] == current_date:
                 return row[1]
     return None

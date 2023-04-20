@@ -1,4 +1,4 @@
-from private import config
+import config
 import tweepy
 import asyncio
 
@@ -7,7 +7,6 @@ def main(tweet_text):
                            consumer_secret=config.API_SECRET,
                            access_token=config.ACCESS_TOKEN,
                            access_token_secret=config.ACCESS_SECRET)
-
     response = client.create_tweet(text=tweet_text)
 
 async def wait_x_minutes(minutes):

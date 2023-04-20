@@ -3,10 +3,8 @@ import datetime
 import random
 import asyncio
 
-from private import *
-
-from functions.csv_reader import read_csv_file
-from functions.utils import *
+from csv_reader import read_csv_file
+from utils import main, wait_2x_minutes, wait_x_minutes
 
 if len(sys.argv) > 1:
     text_to_tweet = sys.argv[1]  # get the first command-line argument as tweet_text

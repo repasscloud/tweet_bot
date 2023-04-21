@@ -33,20 +33,25 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  create_pull_request:
+  auto-pr:
     needs:
       - build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: 'Add new features'
-          title: 'New feature'
-          body: 'This is a new feature'
-          branch: 'dev'
-          base: 'main'
+      - uses: actions/checkout@v3
+      
+      - name: Create pull request
+        run: gh pr create -B main -H dev --title 'Auto PR dev into main' --body 'Automatically created by gh-actions.'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  auto-merge:
+    needs: [ "auto-pr" ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: merge pull request
+        run: gh pr merge --merge
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

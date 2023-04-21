@@ -2,30 +2,21 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
 name: Run Python App
-
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   schedule:
     - cron: "30 2 * * *"
     - cron: "18 14 * * *"
-
 permissions:
   contents: read
-
 jobs:
   build:
-
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     env:
       API_KEY: ${{ secrets.API_KEY }}
       API_SECRET: ${{ secrets.API_SECRET }}
       ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
       ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10

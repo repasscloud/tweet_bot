@@ -69,6 +69,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: merge pull request
-        run: gh pr merge --merge
+        run: gh pr merge --merge --admin
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}

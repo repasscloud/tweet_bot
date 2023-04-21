@@ -46,7 +46,7 @@ jobs:
         run: |
           if [ -n "$ticket_number" ]; then
             echo "PR numbers exist: $ticket_number"
-            gh pr close $ticket_number --repo repasscloud/tweet_bot --body "Closing this pull request because it's no longer needed."
+            gh pr close "$ticket_number" --repo repasscloud/tweet_bot
           else
             echo "No PR numbers exist"
             # Do nothing

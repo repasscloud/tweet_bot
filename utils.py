@@ -1,11 +1,20 @@
 import os
 import tweepy
 import asyncio
+import socket
 
-API_KEY = os.environ.get('API_KEY')
-API_SECRET = os.environ.get('API_SECRET')
-ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
-ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
+hostname=socket.gethostname()
+
+if hostname == "MacBook-Pro.modem":
+    API_KEY = os.environ.get('TWTR_API_KEY')
+    API_SECRET = os.environ.get('TWTR_API_SECRET')
+    ACCESS_TOKEN = os.environ.get('TWTR_ACCESS_TOKEN')
+    ACCESS_SECRET = os.environ.get('TWTR_ACCESS_SECRET')
+else:
+    API_KEY = os.environ.get('API_KEY')
+    API_SECRET = os.environ.get('API_SECRET')
+    ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN')
+    ACCESS_SECRET = os.environ.get('ACCESS_SECRET')
 
 def main(tweet_text):
     client = tweepy.Client(consumer_key=API_KEY,

@@ -38,12 +38,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Get PR numbers
-        run: ticket_number=$(gh pr list --repo repasscloud/tweet_bot --json number | jq '.[].number')
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-      - name: Check if PR numbers exist
         run: |
+          sudo apt-get -y install jq
+          ticket_number=$(gh pr list --repo repasscloud/tweet_bot --json number | jq '.[].number')
           if [ -n "$ticket_number" ]; then
             echo "PR numbers exist: $ticket_number"
             gh pr close "$ticket_number" --repo repasscloud/tweet_bot

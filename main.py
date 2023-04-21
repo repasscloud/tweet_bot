@@ -12,8 +12,11 @@ if len(sys.argv) > 1:
 else:
     # read the csv data file and assign value to tweet_text
     csv_data = 'data.csv'
-    text_to_tweet = read_csv_file(csv_file_path=csv_data)
-    print(text_to_tweet)
+    result = read_csv_file(csv_file_path=csv_data)
+    if result is not None and len(result) == 2:
+        text_to_tweet, csv_data = result
+    else:
+        text_to_tweet = result
     tweet_text = text_to_tweet
 
 # run only if there is a value for today
@@ -30,7 +33,7 @@ if text_to_tweet is not None:
         asyncio.run(wait_x_minutes(random_minutes))
 
         if __name__ == '__main__':
-            main(tweet_text)
+            main(tweet_text[1])
     else:
         # do something if it's PM
         print("it is AM")
@@ -43,7 +46,7 @@ if text_to_tweet is not None:
         asyncio.run(wait_2x_minutes(random_minutes))
 
         if __name__ == '__main__':
-            main(tweet_text)
+            main(tweet_text[0])
 else:
     print("There is nothing to tweet today")
 

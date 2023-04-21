@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
 jobs:
-  build:
+  crontab:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     env:

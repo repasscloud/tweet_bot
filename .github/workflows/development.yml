@@ -1,20 +1,20 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Run Python App
+name: Development
 
 on:
   push:
+    branches: [ "dev" ]
+  pull_request:
     branches: [ "dev" ]
 
 permissions:
   contents: read
 
 jobs:
-  build:
-
+  dev-build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.10
@@ -32,10 +32,29 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-
+  check-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Get PR numbers
+        run: |
+          sudo apt-get -y install jq
+          ticket_number=$(gh pr list --repo repasscloud/tweet_bot --json number | jq '.[].number')
+          if [ -n "$ticket_number" ]; then
+            echo "PR numbers exist: $ticket_number"
+            gh pr close "$ticket_number" --repo repasscloud/tweet_bot
+          else
+            echo "No PR numbers exist"
+            # Do nothing
+          fi
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
   auto-pr:
     needs:
-      - build
+      - check-pr
+      - dev-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -44,14 +63,12 @@ jobs:
         run: gh pr create -B main -H dev --title 'Auto PR dev into main' --body 'Automatically created by gh-actions.'
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-
-
   auto-merge:
     needs: [ "auto-pr" ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: merge pull request
-        run: gh pr merge --merge
+        run: gh pr merge --merge --admin
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
